@@ -6,7 +6,22 @@ namespace Logger
 {
     public class Log
     {
+        private readonly IPrinter printer;
+
+        public Log(IPrinter p )
+        {
+            printer = p;
+        }
+
+        public Log() : this(new ConsolePrinter())
+        {
+            
+        }
         public void Info(Object target) {
+            String output = Inspect(target);
+            printer.Print(output);
+        }
+        public string Inspect(Object target) {
             StringBuilder builder = new StringBuilder();
             builder.Append(target.GetType().Name);
             builder.Append("{");
@@ -19,10 +34,7 @@ namespace Logger
              */
             if(builder.Length != 0) builder.Length-= 2;
             builder.Append("}");
-            /**
-             * Print to Console
-             */
-            Console.WriteLine(builder.ToString());
+            return builder.ToString();
         }
         public string LogMembers(Object target) {
             StringBuilder builder = new StringBuilder();
@@ -53,6 +65,14 @@ namespace Logger
                     return ((MethodInfo) m).Invoke(target, null);
                 default:
                     throw new InvalidOperationException("Member should not be logged!");
+            }
+        }
+
+        private class ConsolePrinter : IPrinter
+        {
+            public void Print(string output)
+            {
+                Console.WriteLine(output);
             }
         }
     }

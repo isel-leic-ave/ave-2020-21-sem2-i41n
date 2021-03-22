@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "App\App.csproj", "{8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{6893406E-C6D0-41C0-B62B-B531CD45E69B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger.Test", "Logger.Test\Logger.Test.csproj", "{CAC4C6E9-B039-4F52-96B8-ACC702606202}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{6893406E-C6D0-41C0-B62B-B531CD45E69B}.Release|x64.Build.0 = Release|Any CPU
 		{6893406E-C6D0-41C0-B62B-B531CD45E69B}.Release|x86.ActiveCfg = Release|Any CPU
 		{6893406E-C6D0-41C0-B62B-B531CD45E69B}.Release|x86.Build.0 = Release|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Debug|x64.Build.0 = Debug|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Debug|x86.Build.0 = Debug|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Release|x64.ActiveCfg = Release|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Release|x64.Build.0 = Release|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Release|x86.ActiveCfg = Release|Any CPU
+		{CAC4C6E9-B039-4F52-96B8-ACC702606202}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
