@@ -1,6 +1,6 @@
 public class Student {
-    public readonly int nr;
-    public readonly string name;
+    [ToLog] public readonly int nr;
+    [ToLog] public readonly string name;
     public readonly int group;
     public readonly string githubId;
 

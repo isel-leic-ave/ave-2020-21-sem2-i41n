@@ -1,5 +1,6 @@
 public class Point{
-    public readonly int x, y;
+    [ToLog("Blue and White")] public readonly int x;
+    [ToLog] public readonly int y;
     public Point(int x, int y) {
         this.x = x;
         this.y = y;

@@ -1,3 +1,9 @@
 using System;
 
-public class ToLog : Attribute {}
+[AttributeUsage(AttributeTargets.Method | AttributeTargets.Field)]
+public class ToLogAttribute : Attribute {
+
+    public ToLogAttribute(string label = "") {
+
+    }
+}

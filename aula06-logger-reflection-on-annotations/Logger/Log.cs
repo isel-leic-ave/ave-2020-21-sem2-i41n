@@ -50,7 +50,20 @@ namespace Logger
             return builder.ToString();
         }
         private bool ShoudlLog(MemberInfo m)
-        {
+        {   
+            ///
+            /// Option 1: Check if ToLog annotation exists
+            /// 
+            if(!Attribute.IsDefined(m,typeof (ToLogAttribute))) return false;
+            ///
+            /// Option 2: Check for ToLog annotation
+            /// 
+            // if(m.GetCustomAttribute(typeof(ToLogAttribute)) == null) return false;
+            ///
+            /// Option 3: Check for all instances of ToLog
+            /// 
+            // if(Attribute.GetCustomAttributes(m, typeof(ToLogAttribute)).Length == 0) return false;
+
             return (m.MemberType == MemberTypes.Field) 
                 || (m.MemberType == MemberTypes.Method 
                     && ((MethodInfo) m).GetParameters().Length == 0);
