@@ -8,15 +8,14 @@ namespace App
         static void Main(string[] args)
         {
             Point p = new Point(7, 9);
-            Student s = new Student(154134, "Ze Manel", 5243, "ze");
+            Student s1 = new Student(154134, "Ze Manel", 5243, "ze");
+            Student s2 = new Student(235474, "Maria Joana", 2356, "maria");
+            Student s3 = new Student(761354, "Jaquina Ambrosia", 9872, "joaquina");
             Account a = new Account(1300);
-            Console.WriteLine(p.ToString());
-            Console.WriteLine(s.ToString());
-            Console.WriteLine(a.ToString());
-
+            Student [] arr = {s1, s2, s3};
             Log log = new Log();
             log.Info(p);
-            log.Info(s);
+            log.Info(arr);
             log.Info(a);
         }
     }
