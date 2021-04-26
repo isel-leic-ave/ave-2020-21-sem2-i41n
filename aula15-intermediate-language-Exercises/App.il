@@ -13,8 +13,8 @@
        extends [mscorlib]System.Object
 {
   .method public hidebysig static int32
-          m(int32 a,
-            int32 b,
+          m(int32 a, // arg.0
+            int32 b, // arg.1
             int32 c) cil managed
   {
     // Code size       31 (0x1f)
@@ -23,20 +23,20 @@
              int32 V_1,
              bool V_2)
     IL_0000:  nop
-    IL_0001:  ldarg.2
-    IL_0002:  ldarg.1
-    IL_0003:  cgt        // compare greater than
-    IL_0005:  stloc.0
-    IL_0006:  ldloc.0
+    IL_0001:  ldarg.2            // c;
+    IL_0002:  ldarg.1            // c; b;
+    IL_0003:  cgt                // c > b
+    IL_0005:  stloc.0    
+    IL_0006:  ldloc.0            // c > b
     IL_0007:  brfalse.s  IL_000d
-    IL_0009:  ldc.i4.1
-    IL_000a:  stloc.1
+    IL_0009:  ldc.i4.1           // 1;
+    IL_000a:  stloc.1    
     IL_000b:  br.s       IL_001d
     IL_000d:  ldarg.2
     IL_000e:  ldarg.0
-    IL_000f:  clt         // compare lower than 
+    IL_000f:  clt                // c < a;
     IL_0011:  stloc.2
-    IL_0012:  ldloc.2
+    IL_0012:  ldloc.2            // c < a;    
     IL_0013:  brfalse.s  IL_0019
     IL_0015:  ldc.i4.m1
     IL_0016:  stloc.1
