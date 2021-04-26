@@ -9,7 +9,7 @@ namespace Logger
     public class Log
     {
         private readonly IPrinter printer;
-        private readonly Dictionary<Type, List<MemberInfo>> members = new Dictionary<Type, List<MemberInfo>>();
+        private readonly Dictionary<Type, List<IGetter>> members = new Dictionary<Type, List<IGetter>>();
 
         public Log(IPrinter p )
         {
@@ -59,25 +59,26 @@ namespace Logger
         public string LogMembers(Object target) {
             StringBuilder builder = new StringBuilder();
             // Inspect Fields
-            foreach(MemberInfo m in GetMembers(target.GetType())) {
-                builder.Append(m.Name);
+            foreach(IGetter m in GetMembers(target.GetType())) {
+                builder.Append(m.GetName());
                 builder.Append(':');
-                builder.Append(GetValue(m, target));
+                builder.Append(m.GetValue(target));
                 builder.Append(", ");
             }
             if(builder.Length != 0) builder.Length-= 2;
             return builder.ToString();
         }
 
-        private IEnumerable<MemberInfo> GetMembers(Type t)
+        private IEnumerable<IGetter> GetMembers(Type t)
         {
             // First check if exist in members dictionary
-            List<MemberInfo> ms;
+            List<IGetter> ms;
             if(!members.TryGetValue(t, out ms)) {
-                ms = new List<MemberInfo>();
+                ms = new List<IGetter>();
                 foreach(MemberInfo m in t.GetMembers()) {
-                    if(ShoudlLog(m)) {
-                        ms.Add(m);
+                    IGetter getter = null; 
+                    if(ShoudlLog(m, out getter)) {
+                        ms.Add(getter);
                     }
                 }
                 members.Add(t, ms);
@@ -85,8 +86,9 @@ namespace Logger
             return ms;
         }
 
-        private bool ShoudlLog(MemberInfo m)
+        private bool ShoudlLog(MemberInfo m, out IGetter getter)
         {   
+            getter = null;
             ///
             /// Check if ToLog annotation exists
             /// 
@@ -94,21 +96,18 @@ namespace Logger
             ///
             /// Check if is a field or parameterless method
             /// 
-            return (m.MemberType == MemberTypes.Field) 
-                || (m.MemberType == MemberTypes.Method 
-                    && ((MethodInfo) m).GetParameters().Length == 0);
-        }
-
-        private object GetValue(MemberInfo m, object target)
-        {
-            switch(m.MemberType) {
-                case MemberTypes.Field:
-                    return ((FieldInfo) m).GetValue(target);
-                case MemberTypes.Method:
-                    return ((MethodInfo) m).Invoke(target, null);
-                default:
-                    throw new InvalidOperationException("Member should not be logged!");
+            if(m.MemberType == MemberTypes.Field) {
+                getter = new GetterField((FieldInfo) m);
+                return true;
             }
+            if(m.MemberType == MemberTypes.Method) {
+                MethodInfo mi = (MethodInfo) m;
+                if(mi.GetParameters().Length == 0) {
+                    getter = new GetterMethod((MethodInfo) m);
+                    return true;
+                }
+            }
+            return false;
         }
 
         private class ConsolePrinter : IPrinter
