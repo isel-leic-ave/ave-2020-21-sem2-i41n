@@ -24,7 +24,7 @@ namespace Logger.Test
             Log log = new Log(printer);
             log.Info(p);
             Assert.Equal(
-                "Point{GetModule:11,40175425099138, x:7}", 
+                "Point{GetModule:11,4017542509914, x:7}", 
                 printer.buffer.ToString());
         }
     }

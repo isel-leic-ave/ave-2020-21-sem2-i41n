@@ -19,14 +19,12 @@ namespace aula16_meta_programming
             Console.WriteLine("new MyDynamicType(7).MyMethod(5) --> " + res);
             //
             // TPC: new MyDynamicType(7).MyMethod(new MyDynamicType(9))
-            //
-            /* 
+            //    
             object other = Activator.CreateInstance(dynType, new object[]{9});
             object res2 = dynType
                 .GetMethod("MyMethod", new Type[]{ dynType }) // Get the MethodInfo of MyMethod
                 .Invoke(obj, new object[]{other});            // Invoke that MethodInfo
             Console.WriteLine("new MyDynamicType(7).MyMethod(new MyDynamicType(9)) --> " + res2);
-            */
         }
 
         private static Type BuildAssemblyAndType()
@@ -68,7 +66,7 @@ namespace aula16_meta_programming
             BuildMethod(tb, fbNumber);
             BuildMethod2(tb, fbNumber);
 
-             // Finish the type.
+            // Finish the type.
             Type t = tb.CreateType();
             return t;
         }
@@ -100,6 +98,21 @@ namespace aula16_meta_programming
         // MyMethod(MyDynamicType other) { return this.m_number * other.m_number; }
         private static void BuildMethod2(TypeBuilder tb, FieldBuilder fbNumber)
         {
+            MethodBuilder meth = tb.DefineMethod(
+                "MyMethod",                    // Method Name
+                MethodAttributes.Public,       // Accessibility
+                typeof(int),                   // Return Type
+                new Type[] { tb }); // Arguments types
+            ILGenerator methIL = meth.GetILGenerator();
+            /* this*/
+            methIL.Emit(OpCodes.Ldarg_0);             // this
+            methIL.Emit(OpCodes.Ldfld, fbNumber);    // this.m_number
+            /* other*/
+            methIL.Emit(OpCodes.Ldarg_1);           //other
+            methIL.Emit(OpCodes.Ldfld, fbNumber);  //other.m_number
+            /* multiply*/
+            methIL.Emit(OpCodes.Mul);             // this.m_number * other.m_number
+            methIL.Emit(OpCodes.Ret);
         }
         private static void BuildConstructor(TypeBuilder tb, FieldBuilder fbNumber)
         {
