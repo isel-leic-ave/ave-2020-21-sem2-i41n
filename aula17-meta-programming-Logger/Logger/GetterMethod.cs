@@ -1,20 +1,15 @@
 using System.Reflection;
 
-public class GetterMethod : IGetter
+public class GetterMethod : AbstractGetter
 {
     private readonly MethodInfo method;
 
-    public GetterMethod(MethodInfo method)
+    public GetterMethod(MethodInfo method) : base(method.Name)
     {
         this.method = method;
     }
 
-    public string GetName()
-    {
-        return method.Name;
-    }
-
-    public object GetValue(object target)
+    public override object GetValue(object target)
     {
         return method.Invoke(target, null);
     }
