@@ -5,7 +5,7 @@ public class Point{
         this.x = x;
         this.y = y;
     }
-    [ToLog] public double GetModule() {
+    public double GetModule() {
             return System.Math.Sqrt(x*x + y*y);
     }
     

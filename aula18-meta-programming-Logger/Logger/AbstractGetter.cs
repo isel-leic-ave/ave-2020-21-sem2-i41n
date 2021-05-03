@@ -2,7 +2,7 @@ public abstract class AbstractGetter : IGetter
 {
     private readonly string name;
 
-    protected AbstractGetter(string name)
+    public AbstractGetter(string name)
     {
         this.name = name;
     }

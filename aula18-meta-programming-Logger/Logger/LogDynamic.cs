@@ -16,20 +16,21 @@ namespace Logger
         {
         }
 
-        
-
         public override IEnumerable<IGetter> GetMembers(Type t)
         {
             // First check if exist in members dictionary
             List<IGetter> ms;
             if(!members.TryGetValue(t, out ms)) {
+                DynamicGetterBuider builder = new DynamicGetterBuider(t);
                 ms = new List<IGetter>();
                 foreach(MemberInfo m in t.GetMembers()) {
                     IGetter getter = null; 
                     if(ShoudlLog(m, out getter)) {
-                        // 1. Create the class that implements IGetter for that member m in domain type t.
+                        // 1. Create the class that extends AbstractGetter for that member m in domain type t.
+                        Type getterType = builder.GenerateGetterFor(m);
                         // 2. Instantiate the class created on 1.
-                        // ms.Add(getter);
+                        getter = (IGetter) Activator.CreateInstance(getterType);
+                        ms.Add(getter);
                     }
                 }
                 members.Add(t, ms);
