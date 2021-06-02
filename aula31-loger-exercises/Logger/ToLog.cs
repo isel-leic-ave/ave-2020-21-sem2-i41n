@@ -7,7 +7,7 @@ public class ToLogAttribute : Attribute {
 
     }
 
-    public ToLogAttribute(Type formatterType) {
+    public ToLogAttribute(Type formatterType, params string[] ctorArgs) {
         
     }
 }
