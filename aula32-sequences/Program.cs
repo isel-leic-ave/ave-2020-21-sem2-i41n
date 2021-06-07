@@ -23,19 +23,33 @@ class App {
     }
      
     static IEnumerable ConvertToStudents(IEnumerable lines) {
-        return null;
+        IList res = new ArrayList();
+        foreach(object line in lines)
+            res.Add(Student.Parse((string) line)); 
+        return res;
     }
     
     static IEnumerable ConvertToFirstName(IEnumerable stds) {
-        return "";
+        IList res = new ArrayList();
+        foreach(object std in stds)
+            res.Add(((Student) std).Name.Split(" ")[0]); 
+        return res;
     }
     
     static IEnumerable FilterWithNumberGreaterThan(IEnumerable stds, int nr) {
-        return null;
+        IList res = new ArrayList();
+        foreach(object std in stds)
+            if(((Student) std).Number > nr)
+                res.Add(std); 
+        return res;
     }
     
     static IEnumerable FilterNameStartsWith(IEnumerable stds, String prefix) {
-        return null;
+        IList res = new ArrayList();
+        foreach(object std in stds)
+            if(((Student) std).Name.StartsWith(prefix))
+                res.Add(std); 
+        return res;
     }
     
     /**
