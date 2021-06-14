@@ -4,7 +4,7 @@ using System.Text;
 using System.IO;
 using System.Collections.Generic;
 
-class Queries4 {
+class Queries5 {
 
     static IEnumerable Lines(string path)
     {
@@ -21,20 +21,11 @@ class Queries4 {
     }
      
     static IEnumerable Convert(IEnumerable src, FunctionDelegate mapper) {
-        IList res = new ArrayList();
-        foreach(object item in src)
-            // res.Add(mapper.Invoke(item)); 
-            res.Add(mapper(item)); 
-        return res;
+        return new ConvertEnumerable(src, mapper);
     }
     
     static IEnumerable Filter(IEnumerable src, PredicateDelegate pred) {
-        IList res = new ArrayList();
-        foreach(object item in src)
-            // if(pred.Invoke(item))
-            if(pred(item))
-                res.Add(item); 
-        return res;
+        return new FilterEnumerable(src, pred);
     }    
 
     static IEnumerable Distinct(IEnumerable src) {
@@ -51,15 +42,7 @@ class Queries4 {
      */
  
     static void Main()
-    {
-
-        FunctionDelegate f1 = line => Student.Parse(line);
-        FunctionDelegate f2 = Student.Parse;
-        // FunctionDelegate f3 = new FunctionDelegate(Student.Parse);
-        
-        object res1 = f1("46100;David Monteiro Lopes;TLI42D");
-        object res2 = f2("46100;David Monteiro Lopes;TLI42D");
-        
+    {    
         IEnumerable names = 
             Distinct(
                 Convert(             // Seq<String>
