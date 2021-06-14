@@ -38,7 +38,12 @@ internal class FilterEnumerator : IEnumerator
 
     public bool MoveNext()
     {
-        return src.MoveNext();
+        bool result = false;
+        do
+        {
+            result = src.MoveNext();
+        } while (result == true && !pred(Current));
+        return result;
     }
 
     public void Reset()

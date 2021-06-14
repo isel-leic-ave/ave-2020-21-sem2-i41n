@@ -35,28 +35,37 @@ class Queries5 {
             set.Add(item); // It is added only if it does not already exist in the set
         }
         return set;
-    }    
+    }  
     
     /**
      * Representa o domínio e o cliente App
      */
  
-    static void Main()
+    public static IEnumerable Run()
     {    
         IEnumerable names = 
-            Distinct(
                 Convert(             // Seq<String>
                     Filter(          // Seq<Student>
                         Filter(      // Seq<Student>
                             Convert( // Seq<Student> 
                                 Lines("isel-AVE-2021.txt"),
                                 Student.Parse),  // Seq<String>
-                            std => ((Student) std).Number > 47000), 
-                        std => ((Student) std).Name.StartsWith("D")),
-                    std => ((Student) std).Name.Split(" ")[0]));
-    
-        foreach(object l in names)
-            Console.WriteLine(l);
+                            std =>
+                            {
+                                Console.WriteLine("Filtering by Number....");
+                                return ((Student)std).Number > 47000;
+                            }),
+                        std =>
+                        {
+                            // Console.WriteLine("Filtering by Name .... with D");
+                            return ((Student)std).Name.StartsWith("D");
+                        }),
+                    std =>
+                    {
+                        Console.WriteLine("Converting to First Name....");
+                        return ((Student)std).Name.Split(" ")[0];
+                    });
+        return names;
     }
     static string FirstName(object student) {
         return ((Student) student).Name.Split(" ")[0];
