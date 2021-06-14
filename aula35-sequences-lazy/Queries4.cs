@@ -38,10 +38,13 @@ class Queries4 {
     }    
 
     static IEnumerable Distinct(IEnumerable src) {
-        /// 
-        /// TPC 9: To DO....
-        /// 
-        return src;
+        IList list = new ArrayList();
+        foreach (object item in src)
+        {
+            if (!list.Contains(item))
+                list.Add(item);
+        }
+        return list;
     }    
     
     /**
