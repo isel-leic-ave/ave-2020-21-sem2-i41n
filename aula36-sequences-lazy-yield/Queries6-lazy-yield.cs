@@ -24,9 +24,12 @@ class Queries6 {
     }
 
     static IEnumerable Limit(IEnumerable src, int size) {
-        return src;
-    }    
-    
+        foreach(object item in src){
+            if(size-- <= 0) yield break;
+            yield return item;
+        }
+    }
+
     static IEnumerable Filter(IEnumerable src, PredicateDelegate pred) {
         foreach(object item in src)
             if(pred(item))
@@ -53,27 +56,29 @@ class Queries6 {
 
         IEnumerable names = 
             Limit(
-                Convert(             // Seq<String>
-                    Filter(          // Seq<Student>
-                        Filter(      // Seq<Student>
-                            Convert( // Seq<Student> 
-                                Lines("isel-AVE-2021.txt"),
-                                Student.Parse),  // Seq<String>
+                Distinct(
+                    Convert(             // Seq<String>
+                        Filter(          // Seq<Student>
+                            Filter(      // Seq<Student>
+                                Convert( // Seq<Student> 
+                                    Lines("isel-AVE-2021.txt"),
+                                    Student.Parse),  // Seq<String>
+                                std =>
+                                {
+                                    // Console.WriteLine("Filtering by Number....");
+                                    return ((Student)std).Number > 27000;
+                                }),
                             std =>
                             {
-                                // Console.WriteLine("Filtering by Number....");
-                                return ((Student)std).Number > 27000;
+                                // Console.WriteLine("Filtering by Name .... with D");
+                                return ((Student)std).Name.StartsWith("P");
                             }),
                         std =>
                         {
-                            // Console.WriteLine("Filtering by Name .... with D");
-                            return ((Student)std).Name.StartsWith("P");
-                        }),
-                    std =>
-                    {
-                        // Console.WriteLine("Converting to First Name....");
-                        return ((Student)std).Name.Split(" ")[0];
-                    }),
+                            // Console.WriteLine("Converting to First Name....");
+                            return ((Student)std).Name.Split(" ")[0];
+                        })
+                    ),
                 3); // Select the top 3 elements
         return names;
     }
