@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Text;
 using System.IO;
-
+using System.Collections.Generic;
 
 class Queries4 {
 
@@ -38,13 +38,12 @@ class Queries4 {
     }    
 
     static IEnumerable Distinct(IEnumerable src) {
-        IList list = new ArrayList();
+        HashSet<object> set = new HashSet<object>();
         foreach (object item in src)
         {
-            if (!list.Contains(item))
-                list.Add(item);
+            set.Add(item); // It is added only if it does not already exist in the set
         }
-        return list;
+        return set;
     }    
     
     /**
